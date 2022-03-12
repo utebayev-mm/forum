@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+</head>
+<body>
+    {{template "navbar" .}}
+    <div class="container">
+        <!-- <h1 class="display-4">{{.Username}}`s Activity</h1> -->
+        <h1 class="display-4">My activity</h1>
+        {{if eq .UserRole 1}}
+        <form action="" method="POST">
+          <button class="btn btn-primary" type="submit" name="requestpromotion" value="{{.UserId}}">Request administration to become a moderator</button> 
+        </form>
+        {{end}}
+        {{range $activity :=  .Activity}}
+            {{if eq $activity.ActivityValue "true"}}
+            You liked the following post:
+            {{else if eq $activity.ActivityValue "false"}}
+            You disliked the following post:
+            {{else if eq $activity.ActivityType "COMMENT"}}
+            You commented on the following post
+            {{else if eq $activity.ActivityType "POST"}}
+            You created a post
+            {{else if eq $activity.ActivityType "COMMENT_UPDATE"}}
+            You updated comment
+            {{end}}
+            {{if eq $activity.ActivityType "LIKE_DISLIKE"}}
+            {{else}}
+            at {{$activity.PostingTime}}:
+            {{end}}
+            <div class="card mb-4">
+                <div class="card-header">
+                 <a href="/post/{{ $activity.Post.Id }}"><h4 class="my-0 font-weight-normal">{{ $activity.Post.Title }}</h4></a> 
+                </div>
+            <div class="card-body">
+                <div class="meta">
+                  <b>Category:
+                    <a href="/category/{{ $activity.Post.Category}}">{{ $activity.Post.CategoryName}}</a></b>
+                  <br />
+                  <b>Posted by: <a href="/user/{{ $activity.Post.Author}}">{{ $activity.Post.AuthorName}}</a></b>
+                  at {{ $activity.Post.PostingTime}}
+                  <br />
+                  
+                </div>
+                <div class="post-text" >
+                    <pre><p class="content">{{ $activity.Post.Body }}</p></pre>
+                  </div>
+                  <div>
+                    {{if eq $activity.ActivityType "COMMENT"}}
+                    with the following comment: 
+                    <br>
+                    {{$activity.ActivityValue}}
+                    <br>
+                    <br>
+                    {{end}}
+                  </div>
+                <div style="display:flex; flex-wrap: wrap; gap:5px;">
+                 
+                    <form action="/post/{{ $activity.Post.Id }}">
+                      <button class="btn btn-primary" type="submit" >Add a comment</button> 
+                    </form>
+                </div>
+              </div>
+            </div>
+
+           
+
+        {{end}}
+    
+    </div>
+
+
+    {{template "footer" .}}
+</body>
+</html>

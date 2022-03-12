@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+   {{template "navbar" .}}
+    <div class="container">
+            <h1 class="display-4">Posts tagged with {{ .TagName }}</h1>
+            {{ range .Posts}}
+            <div class="card mb-4">
+              <div class="card-header">
+                  <a href="/post/{{ .Id }}"><h4 class="my-0 font-weight-normal">{{ .Title }}</h4></a>
+              </div>
+              <div class="card-body">
+                <div class="meta">
+                  <b>Category:
+                    <a href="/category/{{ .Category}}">{{ .CategoryName}}</a></b>
+                  <br />
+                  <b>Posted by: <a href="/user/{{ .Author}}">{{ .AuthorName}}</a></b>
+                  at {{ .PostingTime}}
+                  <br />
+                  <b>Tags: {{if .SeparateTags}} {{range .SeparateTags}}
+                    <a href="/tags/{{ . }}">{{.}}</a> {{end}}</b>
+                  <br />
+                  Likes: {{ .Likes }} Dislikes {{ .Dislikes }} {{else}} No tags
+                  available {{end}}
+                </div>
+                <p class="content">{{ .Body }}</p>
+                
+        
+              </div>
+            </div>
+            {{end}}
+          </div>
+  {{template "footer" .}}
+</body>
+</html>

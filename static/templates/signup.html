@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign up</title>
+  <!-- css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="/static/css/w95.css" />
+  <!-- endcss -->
+</head>
+
+<body>
+
+  <!-- navigation items -->
+  <nav class="navbar navbar-expand-lg navbar-light navbar-95 ">
+    <a class="navbar-brand" href="#">
+      <img src="/static/media/computer-3.png" /> Forum</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item " id="home">
+          <a class="nav-link" href="/">Home </a>
+        </li>
+
+
+        <li class="nav-item" id="login">
+          <a class="nav-link" href="/login">Log in</a>
+        </li>
+        <li class="nav-item active" id="sign_up">
+          <a class="nav-link" href="/sign_up">Sign up</a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+
+  <div class="container">
+
+    <h1 class="display-4">Sign up</h1>
+    <div class="errors">
+      {{.}}
+    </div>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Forms</h4>
+      </div>
+      <div class="card-body">
+
+        <form action="" method="POST">
+
+          <span class="help-block" style="font-size: 12px">Password and nickname have a minimum length of 3 symbols </span>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Nickname:</label>
+            <div class="col-sm-10">
+              <input type="text" name="name" id="" required>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">E-mail:</label>
+            <div class="col-sm-10">
+              <input type="email" name="email" id="" required>
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-10">
+              <input type="password" name="password" id="" required>
+
+
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Repeat Password:</label>
+            <div class="col-sm-10">
+              <input type="password" name="password2" id="" required>
+
+
+            </div>
+          </div>
+
+
+
+
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{template "footer" .}}
+</body>
+</html>

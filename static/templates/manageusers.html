@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage users</title>
+
+</head>
+<body>
+    {{template "navbar" .}}
+    
+      <div class="container">
+          <h1 class="display-4">Manage users</h1>
+          {{range .Users}}
+          {{if ne .Role_id 3 }}
+          {{.Name}} 
+          <br>
+          {{if eq .RequestedPromotion true}}
+          <b>requested promotion</b>
+          {{end}}
+          <form action="" method="POST">
+          <select name="changeroleid">
+              <option value="2" {{if eq .Role_id 2}}selected{{end}}>Moderator</option>
+              <option value="1" {{if eq .Role_id 1}}selected{{end}}>User</option>
+          </select>
+          <button type="submit" class="btn btn-primary" name="changeroleuserid" value="{{.Id}}">Change role</button>
+         </form>
+          <br>
+
+          {{end}}
+          {{end}}
+      </div>
+  {{template "footer" .}}
+</body>
+</html>

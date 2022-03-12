@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+</head>
+<body>
+    {{template "navbar" .}}
+    {{$auth := .Authenticated}}
+    {{$role:= .UserRole}} 
+
+    <div class="container">
+      <div class="container" >
+          <h1 class="display-4">Post page</h1>
+
+          <table  class="table table-hover"> 
+              <tbody class="card"> 
+                <tr >
+                  <td class="card-header">
+                      <h4 class="my-0 font-weight-normal">{{ .Post.Title }}</h4>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="max-width: 100%;">
+                    <div class="text-break">
+                       {{ .Post.Body }}
+                       <br>
+                     
+                    </div>
+                    <img style="min-width:100%; max-width:100%;" onerror="this.style.display='none'"  src="/{{ .Post.Image }}"> 
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                          <b>Category: <a href="/category/{{ .Post.Category}}">{{ .Post.CategoryName}}</a></b><br>
+                                  <b>Posted by: <a href="/user/{{ .Post.Author}}">{{ .Post.AuthorName }}</a></b> at {{ .Post.PostingTime}}
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                        Likes: {{ .Post.Likes }}
+                        Dislikes {{ .Post.Dislikes }}
+        <div style="display:flex; flex-wrap: wrap; gap:5px;">
+                        {{if $auth}}
+                      <form action="" method="POST">
+                        <button class="btn btn-primary" type="submit" name="submit" value="like{{ .Post.Id }}">Like</button>
+                        <button class="btn btn-primary" type="submit" name="submit" value="dislike{{ .Post.Id }}">Dislike</button>
+                    </form>
+                    {{if eq .UserID .Post.Author }}
+                    <form action="/myposts/edit/{{ .Post.Id}}" method="GET" class="edit-button">
+                      <button class="btn btn-primary" type="submit" name="edit" value="{{ .Post.Id}}">Edit</button>
+                    </form>
+                      <form action="/" method="POST" class="edit-button">
+                          <button class="btn btn-primary" type="submit" name="delete" value="{{ .Post.Id}}">Delete</button>
+                      </form>
+                      {{else if eq $role 3}} 
+                      <form action="/" method="POST" class="edit-button">
+                        <button class="btn btn-primary" type="submit" name="delete" value="{{ .Post.Id}}">Delete</button>
+                    </form>
+                    {{else if eq $role 2}}
+                    <form action="/" method="POST" class="edit-button">
+                      <button class="btn btn-primary" type="submit" name="delete" value="{{ .Post.Id}}">Delete</button>
+                  </form>
+                    {{end}}
+                    {{else}}
+                    {{end}}
+        </div>
+            </td>
+                  </tr>
+          </tbody>
+          </table>
+          </div>
+            <br>
+            <div  class="container">
+            <table  class="table table-hover">
+              {{$auth := .Authenticated}}
+              <tbody class="card" >
+                  {{$id := .UserID}}
+
+                <tr>
+                    <td class="card-header">    
+                        <h4 class="my-0 font-weight-normal">Comments:</h4>
+                  </td>
+                </tr>
+                {{range .Comments}}
+                <tr >
+                    <td> 
+                      <b>{{.AuthorName}}</b> {{.PostingTime}}<br>
+                      <div class="text-break">
+                        {{ .CommentText }}
+                      </div>
+                       Likes {{ .Likes }}
+                       Dislike {{ .Dislikes }}
+                      {{if eq $id .AuthorID}}
+                     <br>
+                     <div style="display:flex; flex-wrap: wrap; gap:5px;">
+                    <form action="" method="POST">
+                      <button class="btn btn-primary" type="submit" name="commentmark" value="commentlike{{ .CommentID }}">Like</button>
+                        <button class="btn btn-primary" type="submit" name="commentmark" value="commentdislike{{ .CommentID }}">Dislike</button>
+                        <button class="btn btn-primary" type="submit" name="delete" value="{{ .CommentID }}">Delete</button>
+                  </form>
+                  <form action="/mycomments/edit/{{ .CommentID}}" method="GET" class="edit-button">
+                    <button class="btn btn-primary" type="submit" name="edit" value="{{ .CommentID }}">Edit</button>
+                  </form>
+                  </div>
+                        {{else if eq $role 3}} 
+                        <form action="" method="POST">
+                          <button class="btn btn-primary" type="submit" name="commentmark" value="commentlike{{ .CommentID }}">Like</button>
+                        <button class="btn btn-primary" type="submit" name="commentmark" value="commentdislike{{ .CommentID }}">Dislike</button>
+                        <button class="btn btn-primary" type="submit" name="delete" value="{{ .CommentID }}">Delete</button>
+                      </form>
+                      {{else if eq $role 2}} 
+                      <form action="" method="POST">
+                        <button class="btn btn-primary" type="submit" name="commentmark" value="commentlike{{ .CommentID }}">Like</button>
+                      <button class="btn btn-primary" type="submit" name="commentmark" value="commentdislike{{ .CommentID }}">Dislike</button>
+                      <button class="btn btn-primary" type="submit" name="delete" value="{{ .CommentID }}">Delete</button>
+                    </form>
+                      {{else}}
+                        {{if $auth}} 
+                        <br>
+                    <form action="" method="POST">
+                        <button class="btn btn-primary" type="submit" name="commentmark" value="commentlike{{ .CommentID }}">Like</button>
+                        <button class="btn btn-primary" type="submit" name="commentmark" value="commentdislike{{ .CommentID }}">Dislike</button>
+                  </form>
+                         {{end}}
+                        {{end}}
+                    </td>
+                </tr>
+                  {{end}}
+                </tr>
+                {{if .Authenticated}}
+
+                <tr>
+                  <td>
+                    Add a comment: <br>
+                      <form action="/post/{{ .Post.Id }}" method="POST">
+                        <textarea type="text" style="height:100px;" class="form-95" name="aComment" required></textarea>
+                      <br> <br>
+                      <button class="btn btn-primary" type="submit">Submit</button>
+                    </form>
+          </td>
+                </tr>
+                {{if eq $role 2}}
+                <tr>
+                  <td class="card-header">    
+                      <h4 class="my-0 font-weight-normal">Report this post:</h4>
+                </td>
+              </tr>
+              
+              <tr>
+                <td>
+                  <form action="" method="POST" class="edit-button">
+                      <textarea type="text" style="height:100px;" class="form-95" name="reporttext" required></textarea>
+                      <button class="btn btn-primary" type="submit" name="report" value="{{ .Post.Id}}">Report</button>
+                    </form>
+                  </form>
+        </td>
+              </tr>
+              {{end}}
+                {{else}}
+                <tr>
+                    <td>
+                     <h4>You have to be a registered user to leave comments</h4>
+            </td>
+                  </tr>
+                {{end}}
+              </tbody>
+            </table>
+       
+        </div>
+        <!-- <img src="/media/image1.jpg"> -->
+      </div>
+    {{template "footer" .}}
+</body>
+</html>

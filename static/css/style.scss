@@ -1,0 +1,54 @@
+/* No CSS *//*# sourceMappingURL=style.css.map */
+.edit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.edit-button:nth-child(1) {
+    margin: 5px 0px 5px 0;
+}
+
+.edit-button:nth-child(2) {
+    margin: 5px 10px 5px 5px;
+}
+
+.edit-button:nth-child(3) {
+    margin: 0 0 0px 0px;
+}
+
+.post {
+    background-color: rgb(46, 46, 46);
+    margin-top: 10px;
+    padding: 5px;
+    padding-bottom: 15px;
+    border-radius: 10px;
+    color: white;
+}
+
+.post .edit-button {
+    color: black;
+}
+
+.post a {
+    color: rgb(196, 196, 196);
+    text-decoration: none;
+}
+.post a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.post a:visited {
+    color: rgb(134, 134, 134);
+    text-decoration: none;
+  }
+
+.top-text {
+      /* background-color: rgb(46, 46, 46);
+      color:  rgb(196, 196, 196); */
+     margin: 0px 0px 0px 15px;
+      font-size: 30px;
+      /* border-radius: 10px; */
+}
+

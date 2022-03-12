@@ -1,0 +1,157 @@
+{{define "navbar"}}
+
+<!-- css -->
+<link rel="shortcut icon" href="/static/media/favicon.ico" type="image/x-icon">  
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+  integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+  
+<link rel="stylesheet" href="/static/css/w95.css" />
+<!-- endcss -->
+
+<style>
+
+  </style>
+
+<script>
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      alert("You have been successfully signed out");
+      $(".g-signin2").css("display", "block");
+      $(".data").css("display", "none");
+    });
+    location.reload();
+  }
+</script>
+<!-- navigation items -->
+<nav class="navbar navbar-expand-lg navbar-light navbar-95 ">
+  <a class="navbar-brand" href="/">
+    <img src="/static/media/computer-3.png" /> Forum</a>
+
+  <div  id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item " id="home">
+        <a class="nav-link" href="/">Home </a>
+      </li>
+
+      {{if .Authenticated}}
+      <li class="nav-item " id="my_post">
+        <a class="nav-link" href="/myposts">My posts</a>
+      </li>
+      <li class="nav-item " id="my_post">
+          <a class="nav-link" href="/mycomments">My comments</a>
+        </li>
+      <li class="nav-item " id="liked">
+        <a class="nav-link" href="/likedposts">Favourite posts</a>
+      </li>
+      <li class="nav-item" id="createnewpost">
+        <a class="nav-link" href="/createnewpost">Create a post</a>
+      </li>
+      
+      <li class="nav-item dropdown" onclick="viewAllNotification()">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">{{len .Notifications}} Notifications</a>
+          {{$number := len .Notifications}}
+          {{$user := .Username}}
+          {{if gt $number 0}}
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          {{range .Notifications}}
+          <a class="dropdown-item">
+           
+              {{if eq .NotificationType "LIKE_DISLIKE"}}
+          
+              {{if eq .Username $user}}
+              You
+              {{else}}
+              {{.Username}}
+              {{end}}
+                {{if eq .NotificationValue "true" }}
+                liked
+                {{else}}
+                disliked
+                {{end}}
+                your post
+                {{else if eq .NotificationType "COMMENT"}}
+              
+                {{if eq .Username $user}}
+                You
+                {{else}}
+                {{.Username}}
+                {{end}} commented on your post
+                {{else if eq .NotificationType "POST"}}
+                You created a new post
+              {{end}}
+           
+          </a>
+          {{end}}
+        </div>
+        {{else}}
+        {{end}}
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" onclick="signOut()" href="/logout">Log out</a>
+      </li>
+      {{if .Authenticated}}
+      <li class="nav-item">
+        <a class="nav-link"  href="/profile/">My activity ({{ .Username }}, Rank: {{if eq .UserRole 3}}Admin{{else if eq .UserRole 2}}Moderator{{else if eq .UserRole 1}}User{{end}})</a>
+      </li>
+      {{else}}
+      {{end}}
+      {{else}}
+      <li class="nav-item" id="login">
+        <a class="nav-link" href="/login">Log in</a>
+      </li>
+      <li class="nav-item" id="sign_up">
+        <a class="nav-link" href="/sign_up">Sign up</a>
+      </li>
+      {{end}}
+      {{if eq .UserRole 2}}
+      <li class="nav-item">
+          <a class="nav-link" href="/reports">My reports</a>
+        </li>
+      {{end}}
+      {{if eq .UserRole 3}}
+      <li class="nav-item" id="adminpanel">
+        <div class="dropdown">
+          <button class="dropbtn">Admin panel</button>
+          <div class="dropdown-content">
+            <a class="nav-link" href="/manageusers">Manage users</a>
+            <a class="nav-link" href="/managecategories">Manage categories</a>
+            <a class="nav-link" href="/reports">Moderator reports</a>
+          </div>
+        </div>
+      </li>
+      {{end}}
+    </ul>
+  </div>
+</nav>
+
+<script>
+    const url = {{.CurrentUrl}};
+  if (url == '/') {
+    tag = document.getElementById('home')
+    tag.classList.add('active')
+  } else if (url == '/myposts') {
+     tag = document.getElementById('my_post')
+    tag.classList.add('active')
+  } else if (url == '/likedposts/') {
+    tag = document.getElementById('liked')
+    tag.classList.add('active')
+  } else if (url == '/createnewpost') {
+    tag = document.getElementById('login')
+    tag.classList.add('active')
+  } else if (url == '/sign_up'){
+    tag = document.getElementById('sign_up')
+    tag.classList.add('active')
+  };
+
+  function viewAllNotification() {
+    let response  = fetch('http://localhost:8080/view_all_notification/')
+    console.log(response)
+  };
+
+    </script>
+
+{{end}}

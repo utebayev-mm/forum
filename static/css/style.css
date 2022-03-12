@@ -1,0 +1,62 @@
+/* No CSS */
+.edit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.edit-button:nth-child(1) {
+  margin: 5px 0px 5px 0;
+}
+
+.edit-button:nth-child(2) {
+  margin: 5px 10px 5px 5px;
+}
+
+.edit-button:nth-child(3) {
+  margin: 0 0 0px 0px;
+}
+
+.post {
+  background-color: #2e2e2e;
+  margin-top: 10px;
+  padding: 5px;
+  padding-bottom: 15px;
+  border-radius: 10px;
+  color: white;
+}
+
+.post .edit-button {
+  color: black;
+}
+
+.post a {
+  color: #c4c4c4;
+  text-decoration: none;
+}
+
+.post a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.post a:visited {
+  color: #868686;
+  text-decoration: none;
+}
+
+.top-text {
+  /* background-color: rgb(46, 46, 46);
+      color:  rgb(196, 196, 196); */
+  margin: 0px 0px 0px 15px;
+  font-size: 30px;
+  /* border-radius: 10px; */
+}
+/*# sourceMappingURL=style.css.map */

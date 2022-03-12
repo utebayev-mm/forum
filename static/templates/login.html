@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Forum</title>
+  <!-- css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="/static/css/w95.css" />
+  <!-- endcss -->
+  <meta name="google-signin-client_id"
+    content="233275650657-5aai8oq1qpj0so9hvn58vfqofj1a1a8g.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+  <!-- navigation items -->
+  <nav class="navbar navbar-expand-lg navbar-light navbar-95 ">
+    <a class="navbar-brand" href="#">
+      <img src="/static/media/computer-3.png" /> Forum</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item " id="home">
+          <a class="nav-link" href="/">Home </a>
+        </li>
+
+
+
+        <li class="nav-item active" id="login">
+          <a class="nav-link" href="/login">Log in</a>
+        </li>
+        <li class="nav-item" id="sign_up">
+          <a class="nav-link" href="/sign_up">Sign up</a>
+        </li>
+        <!-- <li class="nav-item" id="googleauthSignOut">
+          <a class="nav-link" onclick="signOut()" href="/logout">Log out</a>
+          </li> -->
+          <li class="nav-item" id="googleauth">
+              <div class="g-signin2" data-width="150" data-auto_select="false"  data-height="25" data-longtitle="true" data-onsuccess="onSignIn"></div>
+              </li>
+              <li class="nav-item" id="githubauth">
+                <a class="nav-link" href="https://github.com/login/oauth/authorize?client_id=9c0298d703179d64b5c8&redirect_uri=http://localhost:8080/githubauth">Log in with GitHub</a>
+                </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <script>
+    setInterval(function(){
+      var auth = document.cookie.match(new RegExp('(^| )' + 'authenticated' + '=([^;]+)'));
+      if (auth != null) {
+        location.reload()
+      }
+      
+      console.log(auth)
+    }, 100)
+
+    async function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      var id_token = googleUser.getAuthResponse().id_token;
+      var auth2 = gapi.auth2.getAuthInstance();
+    auth2.disconnect();
+      console.log(profile)
+      console.log(id_token)
+      // var xhr = new XMLHttpRequest();
+      // xhr.open('POST', 'http://localhost:8080/googleauth');
+      // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      // xhr.onload = function () {
+      //   xhr.responseText = id_token
+      //   console.log('Signed in as: ' + xhr.responseText);
+      // };
+      // xhr.send(id_token);
+      $(".g-signin2").css("display", "none");
+      // // $(".data").css("display", "block");
+      // // $("#pic").attr('src', profile.getImageUrl());
+      // // $("#email").text(profile.getEmail());
+      // // $("#name").text(profile.getName());
+      // // $("#id").text(profile.getId());
+
+      const url = "http://localhost:8080/googleauth"
+      var jsonData = {
+        key : "id token", 
+        idtoken: id_token,
+      }
+      var fetchOptions = {
+        method: 'POST',
+        header: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify(jsonData)
+      }
+      console.log(jsonData)
+      let response = fetch(url, fetchOptions)
+      // setTimeout(2000)
+      // location.reload()
+
+      // location.replace("http://localhost:8080/")
+    }
+
+    function signOut() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        alert("You have been successfully signed out");
+        $(".g-signin2").css("display", "block");
+        $(".data").css("display", "none");
+      });
+    }
+  </script>
+
+
+  <div>
+  </div>
+  <div class="container">
+    <h1 class="display-4">Login</h1>
+    <div class="errors">
+      {{.}}
+    </div>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Forms</h4>
+      </div>
+      <div class="card-body">
+
+        <form action="" method="POST">
+          <div class="form-group row">
+
+
+
+            <label class="col-sm-2 col-form-label">E-mail:</label>
+            <div class="col-sm-10">
+              <input type="email" name="email" id="" required>
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Password:</label>
+            <div class="col-sm-10">
+              <input type="password" name="password" id="" required>
+
+
+            </div>
+          </div>
+
+
+
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{template "footer" .}}
+</body>
+
+</html>

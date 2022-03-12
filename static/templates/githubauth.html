@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Forum</title>
+  <!-- css -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+  <link rel="stylesheet" href="/static/css/w95.css" />
+  <!-- endcss -->
+  <meta name="google-signin-client_id"
+    content="233275650657-5aai8oq1qpj0so9hvn58vfqofj1a1a8g.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+</head>
+<body>
+
+</body>
+<script>
+	// We can get the token from the "access_token" query
+	// param, available in the browsers "location" global
+	const query = window.location.search.substring(1)
+	const token = query.split('access_token=')[1]
+
+	// Call the user info API using the fetch browser library
+	console.log(token)
+	fetch('https://api.github.com/user', {
+			headers: {
+				// Include the token in the Authorization header
+				Authorization: 'token ' + token
+			}
+		})
+		// Parse the response as JSON
+		.then(res => res.json())
+		.then(res => {
+			// Once we get the response (which has many fields)
+			// Documented here: https://developer.github.com/v3/users/#get-the-authenticated-user
+			// Write "Welcome <user name>" to the documents body
+			const nameNode = document.createTextNode(`Welcome, ${res.name}`)
+			document.body.appendChild(nameNode)
+		})
+</script>
+</html>

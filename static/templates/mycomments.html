@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My posts</title>
+
+</head>
+<body>
+    {{template "navbar" .}}
+    
+      <div class="container">
+          <h1 class="display-4">My Comments</h1>
+        {{$id:= .UserId}} 
+        
+       {{range .Comments}}
+       <div class="card mb-4">
+            <div class="card-header">
+                <a href="/post/{{ .PostID }}"><h4 class="my-0 font-weight-normal">{{ .PostTitle }}</h4></a>
+            </div>
+            <div class="card-body">
+                    {{ .CommentText }}
+                  </div>
+                  <div class="card-body">
+                        Posted at {{ .PostingTime }}
+                        <div style="display:flex; flex-wrap: wrap; gap:5px;">
+                        <form action="/mycomments/edit/{{ .CommentID}}" method="GET" class="edit-button">
+                          <button class="btn btn-primary" type="submit" name="edit" value="{{ .CommentID }}">Edit</button>
+                        </form>
+                        <form action="" method="POST">
+                                <button class="btn btn-primary" type="submit" name="delete" value="{{ .CommentID }}">Delete</button>
+                          </form>   
+                      </div>     
+                              </div>         
+          </div>
+       {{end}}
+      </div>
+  {{template "footer" .}}
+</body>
+</html>

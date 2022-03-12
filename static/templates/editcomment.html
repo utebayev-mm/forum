@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+</head>
+
+<body>
+
+  {{template "navbar" .}}
+
+  <div class="container">
+    <h1 class="display-4">Edit Comment</h1>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">Forms</h4>
+      </div>
+      <div class="card-body">
+
+        <form action="/mycomments/edit/{{ .Comment.CommentID}}" method="POST">
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label"> Comment Text</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-95" name="CommentContent" value="{{ .Comment.CommentText }}" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{template "footer" .}}
+</body>
+</html>

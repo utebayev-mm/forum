@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+
+</head>
+<body>
+    {{template "navbar" .}}
+      <div class="container">
+          <h1 class="display-4">Reported posts</h1>
+          {{$Role := .UserRole}}
+          <table  class="table table-hover">
+              <tbody class="card" >
+            
+    {{range .Reports}}
+    <tr>
+        <td class="card-header">    
+    <a href="/post/{{ .ReportID }}"><h4 class="my-0 font-weight-normal">{{ .Title }}</h4></a>
+  </td>
+</tr>
+<tr>
+    <td>    
+        <div class="text-break">
+
+            <b>Report reason:</b>
+    <br>
+    {{.Status}}
+    <br>
+
+    {{if eq .AdminReply ""}}
+    {{else}}
+    <b>Administrator's reply to the report:</b>
+    <br>
+    {{.AdminReply}}
+    {{end}}
+    <br>
+    
+    {{if eq $Role 3}}
+    <b>Report sent by:</b> <a href="/user/{{ .UserID }}">{{.Sender}}</a>
+
+    <form action="" method="POST" class="edit-button">
+        <textarea type="text" style="height:100px;" class="form-95" name="replytext" required></textarea>
+    <div style="display:flex; flex-wrap: wrap; gap:5px;">
+        <button class="btn btn-primary" type="submit" name="reportreply" value="{{ .ReportID}}">Reply to the report</button>
+    </form>
+    <form action="" method="POST" class="edit-button">
+      <button class="btn btn-primary" type="submit" name="changestatus" value="{{ .ReportID }}">Delete the report</button> 
+    </form>
+    </div>
+
+          {{end}}
+          {{end}}
+        </div>
+      </td>
+      </tr>
+          </tbody>
+          </table>
+      </div>
+      
+  {{template "footer" .}}
+</body>
+</html>
