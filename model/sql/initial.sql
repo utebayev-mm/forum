@@ -232,8 +232,8 @@ END;
 -- 	);
 -- END;
 
-insert into user(name,email,password, role_id) values("marat","123@mail.com","$2a$14$mVucWUpjrhpvMlNZh0aEs.KE1NOK0058Zwr7IkQuU8dnBPEYDfwt6", 3);
-insert into user(name,email,password, role_id) values("nurislam","n@mail.com","$2a$14$mVucWUpjrhpvMlNZh0aEs.KE1NOK0058Zwr7IkQuU8dnBPEYDfwt6", 3);
+insert into user(name,email,password, role_id) values("admin1","123@mail.com","$2a$14$mVucWUpjrhpvMlNZh0aEs.KE1NOK0058Zwr7IkQuU8dnBPEYDfwt6", 3);
+insert into user(name,email,password, role_id) values("admin2","n@mail.com","$2a$14$mVucWUpjrhpvMlNZh0aEs.KE1NOK0058Zwr7IkQuU8dnBPEYDfwt6", 3);
 insert into user(name,email,password, role_id) values("user","user@mail.com","$2a$14$mVucWUpjrhpvMlNZh0aEs.KE1NOK0058Zwr7IkQuU8dnBPEYDfwt6", 1);
 insert into user(name,email,password, role_id) values("moderator","mod@mail.com","$2a$14$mVucWUpjrhpvMlNZh0aEs.KE1NOK0058Zwr7IkQuU8dnBPEYDfwt6", 2);
 
